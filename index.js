@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { userRouter as routes } from "./routes/routes.js";
 import path from "path";
 import dotenv from "dotenv";
 import { UserModel } from "./models/UserModel.js";
@@ -36,7 +35,6 @@ app.get("/api/", (_, response) => {
 /**
  * Rotas principais do app
  */
-app.route("/api/users", routes);
 
 app.route("/users/")
 .get(async (req,res)=>{
@@ -46,7 +44,6 @@ app.route("/users/")
     res.send(user);
   } catch (error) {
     res.status(500).send(error);
-    
   }
 })
 .post((req, res)=>{
