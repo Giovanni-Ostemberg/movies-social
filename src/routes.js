@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-
+import {getAllUsers} from "../src/services/mongoDB/UserController";
 import { isAuthenticated } from "./services/auth";
-import SignUp from "./pages/SignUp/index"
+import SignUp from "./pages/SignUp/index";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -21,7 +21,7 @@ const Routes = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={() => <h1>Login</h1>} />
-      <Route path="/signup" component={SignUp}/>
+      <Route path="/signup" component={SignUp} getAllUsers={getAllUsers}/>
       <PrivateRoute path="/app" component={() => <h1>App</h1>} />
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>

@@ -7,10 +7,12 @@ export default class SignUp extends Component {
         password: "",
         error: ""
       };
-    
+
+      
+      
       handleSignUp = e => {
-        e.preventDefault();
-        alert("Eu vou te registrar");
+        const {getAllUsers} = this.props;
+        console.log(getAllUsers());
       };
     
       render() {
