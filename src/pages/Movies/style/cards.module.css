@@ -5,3 +5,15 @@
   align-content: space-around;
   justify-content: space-around;
 }
+
+.cardContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+}
+
+h5 {
+  text-align: center;
+}

@@ -1,12 +1,11 @@
 import React from "react";
-import M from "materialize-css";
 import css from "../style/cards.module.css";
 import MovieCard from "./MovieCard";
 
-export default function TopRatedMovies({ topRated }) {
+export default function MovieResults({ results }) {
   return (
     <div className={css.card + " row"}>
-      {topRated.map((item) => {
+      {results.map((item) => {
         return <MovieCard key={item.id} item={item} />;
       })}
     </div>
