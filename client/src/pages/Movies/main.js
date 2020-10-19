@@ -36,6 +36,7 @@ export default function Movies({ topMovies, foundMovies }) {
     <div>
       <nav>
         <div class="nav-wrapper">
+          <span className="right">{}</span>
           <a href="#" class="brand-logo right">
             LogOut
           </a>
