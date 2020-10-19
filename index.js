@@ -5,6 +5,8 @@ import path from "path";
 import dotenv from "dotenv";
 import { UserModel } from "./models/UserModel.js";
 
+// import {authMiddleware} from "../app/client/src/services/auth";
+
 /**
  * Faz a leitura do arquivo
  * ".env" por padrão
@@ -36,7 +38,8 @@ app.get("/api/", (_, response) => {
  * Rotas principais do app
  */
 
-app.route("/users/")
+app.route("/user/")
+// chamada para recuperar dados existentes
 .get(async (req,res)=>{
   try {
     
@@ -46,9 +49,47 @@ app.route("/users/")
     res.status(500).send(error);
   }
 })
-.post((req, res)=>{
+.post(async (req, res)=>{
   // Chamada de criação de um novo usuário
+  try {
+    const existsEmail = await UserModel.find({email});
+    if(existsEmail.length !==0){
+      res.send("Email já existente");
+    }
+    else{ 
 
+      const user = new UserModel(req.body);
+      await user.save();
+      res.send("Usuario " + user.name + " salvo com sucesso!");
+    }
+  } catch (e) {
+    res.send("Não foi possível realizar o cadastro, por favor, revise os dados e tente novamente.");
+  }
+
+})
+
+app.post("/user/login/", async (req,res)=>{
+  console.log("Tentanto logar");
+
+  const user = await UserModel.findOne({email});
+
+  try {
+    console.log(req.body);
+   
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    if (!(await user.compareHash(password))) {
+      return res.status(400).json({ error: "Invalid password" });
+    }
+        return res.json({
+          user,
+          token: user.generateToken()});
+      }
+      catch (error) {
+    return res.status(400).json({ error: "User authentication failed" });
+  }
 })
 
 /**
