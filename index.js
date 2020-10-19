@@ -77,30 +77,48 @@ app
     }
   });
 
+app.get("/profiles", async (req, res) => {
+  console.log(req.query.user_email);
+  try {
+    const profiles = await ProfileModel.find({
+      user_email: req.query.user_email,
+    });
+    res.send(profiles);
+  } catch (error) {
+    res.send(
+      "Não foi possível recuperar o perfil, por favor, revise os dados e tente novamente."
+    );
+  }
+});
+
 app
   .route("/profile")
   .post(async (req, res) => {
+    console.log(req.body);
     try {
-      const profile = await ProfileModel.findOne({
-        user_email: req.body.email,
-        profile_name: req.body.name,
+      const profile = await ProfileModel.find({
+        user_email: req.body.user_email,
+        profile_name: req.body.profile_name,
       });
       if (profile.length !== 0) {
-        res.send("O nome de perfil já existe, por favor, escolha outro");
+        console.log(profile);
+        res.send("O perfil já existe");
       } else {
         const newProfile = new ProfileModel(req.body);
-        await profile.save();
+        await newProfile.save();
         res.send("Perfil criado com sucesso!");
       }
     } catch (error) {
-      res.send(
-        "Não foi possível criar o perfil, por favor, revise os dados e tente novamente."
-      );
+      res.send("Não foi possível criar o perfil");
     }
   })
   .get(async (req, res) => {
+    console.log(req.query);
     try {
-      const profiles = await ProfileModel.find({ user_email: req.query.email });
+      const profiles = await ProfileModel.findOne({
+        user_email: req.query.user_email,
+        profile_name: req.query.profile_name,
+      });
       res.send(profiles);
     } catch (error) {
       res.send("Não existem perfis criados para esta conta");

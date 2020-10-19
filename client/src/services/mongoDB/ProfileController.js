@@ -14,8 +14,8 @@ export let profile = {
 };
 
 // Função que adiciona um novo usuário ao banco de dados
-export function handleCreateProfile(profile_name, email) {
-  axios
+export async function handleCreateProfile(profile_name, email) {
+  const newProfile = await axios
     .post("http://localhost:3001/profile", {
       user_email: email,
       profile_name: profile_name,
@@ -23,19 +23,30 @@ export function handleCreateProfile(profile_name, email) {
       watched: [],
     })
     .then(console.log(process.env));
+
+  return newProfile;
 }
 
-export async function handleChangeProfile(email, password) {
+export async function handleChangeProfile(email, name) {
   const login = async () => {
-    return await axios.post("http://localhost:3001/user/login", {
-      email: email,
-      password: password,
-    });
+    console.log(email);
+    return await axios.get(
+      `http://localhost:3001/profile?user_email=${email}&profile_name=${name}`
+    );
   };
 
   const user = await login();
 
-  console.log(user.token);
+  console.log(user.data);
 
-  return user;
+  return user.data;
+}
+
+export async function getAllProfiles(email) {
+  const profiles = async () => {
+    return await axios.get(`http://localhost:3001/profiles?email=${email}`);
+  };
+
+  const allProfiles = await profiles();
+  return allProfiles.data;
 }

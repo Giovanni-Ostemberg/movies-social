@@ -13,6 +13,10 @@ import {
   fetchTopRatedMovies,
   findMovies,
 } from "./services/mongoDB/MovieController";
+import {
+  handleChangeProfile,
+  handleCreateProfile,
+} from "./services/mongoDB/ProfileController";
 
 // const PrivateRoute = ({ component: Component, ...rest }) => (
 // <Route
@@ -41,7 +45,12 @@ const Routes = () => (
       <Route
         path="/movies"
         render={() => (
-          <Movies topMovies={fetchTopRatedMovies} foundMovies={findMovies} />
+          <Movies
+            topMovies={fetchTopRatedMovies}
+            handleProfile={handleChangeProfile}
+            createProfile={handleCreateProfile}
+            foundMovies={findMovies}
+          />
         )}
       />
       <Route path="/app" component={() => <h1>App</h1>} />

@@ -16,11 +16,11 @@ mongoose
 let schema = mongoose.Schema({
   profile_name: {
     type: String,
+    unique: true,
     require: true,
   },
   user_email: {
     type: String,
-    unique: true,
     required: true,
     lowercase: true,
   },
