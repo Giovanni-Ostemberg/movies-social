@@ -13,15 +13,18 @@ export let user = {
 };
 
 // Função que adiciona um novo usuário ao banco de dados
-export function handleCreateUser(name, password, birthday, email) {
-  axios
+export async function handleCreateUser(name, password, birthday, email) {
+  console.log("Criando usuário");
+  const newUser = await axios
     .post("http://localhost:3001/user", {
       name: name,
       email: email,
       birthday: birthday,
       password: password,
     })
-    .then(console.log(process.env));
+    .then();
+  console.log(newUser);
+  return newUser;
 }
 
 export async function handleLogin(email, password) {
